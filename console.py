@@ -2,6 +2,7 @@
 """ Console Module """
 import cmd
 import sys
+import re
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -19,15 +20,15 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
     classes = {
-               'BaseModel': BaseModel, 'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
-              }
+            'BaseModel': BaseModel, 'User': User, 'Place': Place,
+            'State': State, 'City': City, 'Amenity': Amenity,
+            'Review': Review
+            }
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
-             'number_rooms': int, 'number_bathrooms': int,
-             'max_guest': int, 'price_by_night': int,
-             'latitude': float, 'longitude': float
+            'number_rooms': int, 'number_bathrooms': int,
+            'max_guest': int, 'price_by_night': int,
+            'latitude': float, 'longitude': float
             }
 
     def preloop(self):
@@ -75,7 +76,7 @@ class HBNBCommand(cmd.Cmd):
                     # check for *args or **kwargs
                     if pline[0] is '{' and pline[-1] is'}'\
                             and type(eval(pline)) is dict:
-                        _args = pline
+                                _args = pline
                     else:
                         _args = pline.replace(',', '')
                         # _args = _args.replace('\"', '')
@@ -114,14 +115,39 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """ Create an object of any class"""
-        if not args:
+        """ Create an object of any class with given
+        parameters"""
+        print("{} {}".format("args =", args))
+        pattr = r'(\w+)\s+(.+)'
+        print("{} {}".format("pattr =", pattr))
+        match = re.match(pattr, args)
+        print("{} {}".format("match =", match))
+        if not match:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        class_name = match.group(1)
+        params_str = match.group(2)
+        print("{} {}".format("class_name =", class_name))
+        print("{} {}".format("params_str =", params_str))
+        param_pattern = r'(\w+)="([^"]*)"|(\w+)=(-?\d+(\.\d+)?)'  # Include support for floats
+
+        params = {}
+        for param_match in re.finditer(param_pattern, params_str):
+            key = param_match.group(1) or param_match.group(3)
+            value = param_match.group(2) or param_match.group(4)
+            print("{} {}".format("key =", key))
+            print("{} {}".format("value =", value))
+        try:
+            if '.' in value:
+                params[key] = float(value)
+            else:
+                params[key] = int(value)
+        except ValueError:
+            params[key] = value
+        if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
+        new_instance = HBNBCommand.classes[class_name](**params)
         storage.save()
         print(new_instance.id)
         storage.save()

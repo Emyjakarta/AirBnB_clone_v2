@@ -1,6 +1,13 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for hbnb clone"""
 import json
+from models.base_model import BaseModel  # Import BaseModel
+from models.user import User  # Import User class
+from models.place import Place  # Import the Place class
+from models.state import State  # Import the State class
+from models.city import City  # Import the City class
+from models.amenity import Amenity  # Import the Amenity class
+from models.review import Review  # Import the Review class
 
 
 class FileStorage:
@@ -14,6 +21,8 @@ class FileStorage:
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
+        #key = obj.__class__.__name__ + '.' + obj.id
+        #FileStorage.__objects[key] = obj
         self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
 
     def save(self):
@@ -22,6 +31,7 @@ class FileStorage:
             temp = {}
             temp.update(FileStorage.__objects)
             for key, val in temp.items():
+            #for key, val in FileStorage.__objects.items():
                 temp[key] = val.to_dict()
             json.dump(temp, f)
 
@@ -46,5 +56,12 @@ class FileStorage:
                 temp = json.load(f)
                 for key, val in temp.items():
                         self.all()[key] = classes[val['__class__']](**val)
+                    #class_name = val['__class__']
+                    #del val['__class__']
+                    #val['updated_at'] = datetime.strptime(val['updated_at'], '%Y-%m-%dT%H:%M:%S.%f')
+                    #val['created_at'] = datetime.strptime(val['created_at'], '%Y-%m-%dT%H:%M:%S.%f')
+                    #obj = eval(class_name)(**val)
+                    #key = class_name + '.' + obj.id
+                    #FileStorage.__objects[key] = obj
         except FileNotFoundError:
             pass
