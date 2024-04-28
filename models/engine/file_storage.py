@@ -1,19 +1,25 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for hbnb clone"""
 import json
-from models.base_model import BaseModel  # Import BaseModel
-from models.user import User  # Import User class
-from models.place import Place  # Import the Place class
-from models.state import State  # Import the State class
-from models.city import City  # Import the City class
-from models.amenity import Amenity  # Import the Amenity class
-from models.review import Review  # Import the Review class
+#from models.base_model import BaseModel  # Import BaseModel
+#from models.user import User  # Import User class
+#from models.place import Place  # Import the Place class
+#from models.state import State  # Import the State class
+#from models.city import City  # Import the City class
+#from models.amenity import Amenity  # Import the Amenity class
+#from models.review import Review  # Import the Review class
 
 
 class FileStorage:
     """This class manages storage of hbnb models in JSON format"""
     __file_path = 'file.json'
     __objects = {}
+    #__instance = None
+
+    #def __new__(cls):
+        #if cls.__instance is None:
+            #cls.__instance = super().__new__(cls)
+        #return cls.__instance
 
     def all(self):
         """Returns a dictionary of models currently in storage"""
@@ -22,7 +28,12 @@ class FileStorage:
     def new(self, obj):
         """Adds new object to storage dictionary"""
         #key = obj.__class__.__name__ + '.' + obj.id
+        #key = "{}.{}".format(type(obj).__name__, obj.id)
+        #print("key in new:", key)  # Debugging output
         #FileStorage.__objects[key] = obj
+        #key = "{}.{}".format(type(obj).__name__, obj.id)
+        #self.__objects[key] = obj
+        #print("Added object:", obj)  # Debugging output
         self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
 
     def save(self):
@@ -34,6 +45,9 @@ class FileStorage:
             #for key, val in FileStorage.__objects.items():
                 temp[key] = val.to_dict()
             json.dump(temp, f)
+            ##temp = {key: obj.to_dict() for key, obj in self.__objects.items()}
+            ##json.dump(temp, f)
+
 
     def reload(self):
         """Loads storage dictionary from file"""
@@ -56,8 +70,10 @@ class FileStorage:
                 temp = json.load(f)
                 for key, val in temp.items():
                         self.all()[key] = classes[val['__class__']](**val)
-                    #class_name = val['__class__']
-                    #del val['__class__']
+                    ##class_name = val['__class__']
+                    ##del val['__class__']
+                    ##obj = classes[class_name](**val)
+                    ##self.__objects[key] = obj
                     #val['updated_at'] = datetime.strptime(val['updated_at'], '%Y-%m-%dT%H:%M:%S.%f')
                     #val['created_at'] = datetime.strptime(val['created_at'], '%Y-%m-%dT%H:%M:%S.%f')
                     #obj = eval(class_name)(**val)
