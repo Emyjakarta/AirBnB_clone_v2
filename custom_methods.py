@@ -10,7 +10,7 @@ from random import choice
 from sqlalchemy import text, inspect
 
 
-class LazyMethods:
+class CustomMethods:
     """Defines useful short methods that are heavily used during testing."""
 
     __random_attributes = {

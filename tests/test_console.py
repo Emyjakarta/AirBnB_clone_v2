@@ -8,10 +8,10 @@ from unittest.mock import patch
 from io import StringIO
 import sqlalchemy
 from console import HBNBCommand
-from lazy_methods import LazyMethods
+from custom_methods import CustomMethods
 import models
 
-instance = LazyMethods()
+instance = CustomMethods()
 
 
 class TestConsole(unittest.TestCase):
@@ -58,7 +58,7 @@ class TestConsole(unittest.TestCase):
                 )
             )
 
-    # @patch('lazy_methods.LazyMethods.get_uuid')
+    # @patch('custom_methods.CustomMethods.get_uuid')
     # def test_do_create_escaped_str(self, mock_get_uuid):
     #    """Test `create` with an escaped string attribute value."""
     #   mock_get_uuid.return_value = 'dummy_uuid'
