@@ -137,7 +137,7 @@ class HBNBCommand(cmd.Cmd):
         # print("{} {}".format("class_name =", class_name))
         # print("{} {}".format("params_str =", params_str))
         # Include support for floats
-       # param_pattern = r'(\w+)="([^"]*)"|(\w+)=(-?\d+(\.\d+)?)'
+        # param_pattern = r'(\w+)="([^"]*)"|(\w+)=(-?\d+(\.\d+)?)'
         param_pattern = r'(\w+)="((?:\\"|[^"])*)"|(\w+)=(-?\d+(\.\d+)?)'
 
         params = {}
@@ -154,14 +154,16 @@ class HBNBCommand(cmd.Cmd):
                 # value = value[1:-1].replace('\\"', '"')
             if value is not None and ' ' in value:
                 print(
-                    "Error: Values cannot contain spaces. Please use underscores instead.")
+                    "Error: Values cannot contain spaces. \
+                            Please use underscores instead.")
                 return
             if value is not None and '_' in value and ' ' not in value:
                 # Replace underscores with spaces
                 value = value.replace("_", " ")
-           # params[key] = value
-           # value = value.replace("_", " ")  # Replace underscores with spaces
-           # for key, value in params.items():
+            # params[key] = value
+            # value = value.replace("_", " ")
+            # Replace underscores with spaces
+            # for key, value in params.items():
             # print("{} {}".format("key =", key))
             # print("{} {}".format("value =", value))
             try:

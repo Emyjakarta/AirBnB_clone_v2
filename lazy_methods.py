@@ -52,16 +52,16 @@ class LazyMethods:
 
         # Check if the UUID string is empty
         # if not uuid_string:
-            # print("Error: Empty UUID string")
-            # return None
+        # print("Error: Empty UUID string")
+        # return None
 
         # try:
-            # Attempt to create a UUID object
-            # uuid_obj = uuid.UUID(uuid_string)
-            # return uuid_obj
+        # Attempt to create a UUID object
+        # uuid_obj = uuid.UUID(uuid_string)
+        # return uuid_obj
         # except ValueError:
-           # print("Error: Malformed UUID string")
-           # return None
+        # print("Error: Malformed UUID string")
+        # return None
 
     @staticmethod
     def get_instances_count(line: StringIO) -> int:
