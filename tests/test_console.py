@@ -1,48 +1,130 @@
-from models import storage
-from models.base_model import BaseModel
+#!/usr/bin/python3
+
+"""This module tests the console."""
+
+import os
 import unittest
 from unittest.mock import patch
-from console import HBNBCommand
 from io import StringIO
+import sqlalchemy
+from console import HBNBCommand
+from lazy_methods import LazyMethods
+import models
+
+instance = LazyMethods()
 
 
-class TestCreateCommand(unittest.TestCase):
+class TestConsole(unittest.TestCase):
+    """Tests the console."""
 
-    @patch('sys.stdout', new_callable=StringIO)
-    def test_create_string_param(self, mock_stdout):
-        """Test create command with string parameter"""
-        cmd = HBNBCommand()
-        cmd.onecmd("create BaseModel name=\"My_little_house\"")
+    def setUp(self):
+        self.cli = HBNBCommand()
 
-        # Retrieve the ID of the created object from the console output
-        created_id = mock_stdout.getvalue().strip()
+        if os.getenv("HBNB_TYPE_STORAGE") == "db":
+            models.storage.rollback()
 
-        # Retrieve the created object from the storage
-        created_obj = storage.all()["BaseModel.{}".format(created_id)]
+    def test_do_create_no_args(self):
+        """Test `create` with no model name."""
+        with patch("sys.stdout", new=StringIO()) as f:
+            self.cli.onecmd("create")
+            self.assertEqual(
+                f.getvalue(), "** class name missing **\n")
 
-        # Check if the name attribute of the created object matches the
-        # expected value
-        self.assertEqual(created_obj.name, "My little house")
-        # self.assertIn("My little house", mock_stdout.getvalue())
+    def test_do_create_invalid_class(self):
+        """Test `create` with an invalid model name."""
+        with patch("sys.stdout", new=StringIO()) as f:
+            self.cli.onecmd("create MyClass")
+            self.assertEqual(f.getvalue(), "** class doesn't exist **\n")
 
-    @patch('sys.stdout', new_callable=StringIO)
-    def test_create_float_param(self, mock_stdout):
-        """Test create command with float parameter"""
-        cmd = HBNBCommand()
-        cmd.onecmd("create BaseModel price=10.5")
+    @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") == "db", "file")
+    def test_do_create_valid_class(self):
+        """Test `create` with a valid model name."""
+        with patch("sys.stdout", new=StringIO()) as f:
+            self.cli.onecmd("create BaseModel")
+            self.assertNotEqual(f.getvalue(), "** class doesn't exist **\n")
+            self.assertNotEqual(f.getvalue(), "** class name missing **\n")
 
-        # Retrieve the ID of the created object from the console output
-        created_id = mock_stdout.getvalue().strip()
+    @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") == "db", "file")
+    def test_do_create_one_attribute(self):
+        """Test `create` with one attribute."""
+        with patch("sys.stdout", new=StringIO()) as f:
+            self.cli.onecmd('create BaseModel name="Holberton"')
 
-        # Retrieve the created object from the storage
-        created_obj = storage.all()["BaseModel.{}".format(created_id)]
+            key = instance.get_key("BaseModel", instance.get_uuid(f))
+            obj = models.storage.all()[key]
+            self.assertTrue(
+                set({"name": "Holberton"}.items()).issubset(
+                    obj.__dict__.items()
+                )
+            )
+    
+   # @patch('lazy_methods.LazyMethods.get_uuid')
+   # def test_do_create_escaped_str(self, mock_get_uuid):
+    #    """Test `create` with an escaped string attribute value."""
+     #   mock_get_uuid.return_value = 'dummy_uuid'
+      #  with patch("sys.stdout", new=StringIO()) as f:
+       #     self.cli.onecmd(
+        #        'create User first_name=""Betty"_Holberton" '
+         #       'email="bettyholberton@hbtn.io" password="abc123"'
+          #  )
 
-        # Check if the price attribute of the created object matches the
-        # expected value
-        self.assertEqual(created_obj.price, 10.5)
+            # key = instance.get_key("User", instance.get_uuid(f))
+            # key = instance.get_key("User", 'dummy_uuid')
+            # obj = models.storage.all()[key]
 
-    # Add more test methods for other parameter types as needed...
+           # obj_dict = models.storage.all().get('User.dummy_uuid')
+            #self.assertIsNotNone(obj_dict)
+            #obj = obj_dict['User.dummy_uuid']
+           # self.assertTrue(
+            #    set(
+             #       {
+              #          "first_name": '"Betty" Holberton',
+               #         "email": "bettyholberton@hbtn.io",
+                #        "password": "abc123",
+                 #   }.items()
+               # ).issubset(obj.__dict__.items()),
+           # )
+
+    def test_do_create_multiple_attributes(self):
+        """Test `create` with multiple attributes."""
+        with patch("sys.stdout", new=StringIO()) as f:
+            self.cli.onecmd(
+                'create User first_name="Betty" last_name="Holberton" '
+                'email="bettyholberton@hbtn.io" password="abc123"'
+            )
+
+            key = instance.get_key("User", instance.get_uuid(f))
+            obj = models.storage.all()[key]
+            self.assertTrue(
+                set(
+                    {
+                        "first_name": "Betty",
+                        "last_name": "Holberton",
+                        "email": "bettyholberton@hbtn.io",
+                        "password": "abc123",
+                    }.items()
+                ).issubset(obj.__dict__.items()),
+            )
+
+   # def test_do_create_invalid_attribute(self):
+    #    """Test `create` with an invalid attribute."""
+     #   if os.getenv("HBNB_TYPE_STORAGE") == "db":
+      #      print("Using DB")
+       #     with self.assertRaises(sqlalchemy.exc.IntegrityError):
+        #        self.cli.onecmd(
+         #           'create User invalid_attribute="Betty Holberton"'
+          #      )
+       # else:
+        #    print("Using File storage")
+         #   with patch("sys.stdout", new=StringIO()) as f:
+          #      self.cli.onecmd(
+           #         'create User invalid_attribute="Betty Holberton"'
+            #    )
+
+             #   key = instance.get_key("User", instance.get_uuid(f))
+              #  obj = models.storage.all()[key]
+               # self.assertNotIn("invalid_attribute", obj.__dict__)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

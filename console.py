@@ -124,7 +124,8 @@ class HBNBCommand(cmd.Cmd):
         """ Create an object of any class with given
         parameters"""
         # print("{} {}".format("args =", args))
-        pattr = r'(\w+)\s+(.+)'
+        pattr = r'^(\w+)(?:\s+(.*))?$'
+        # pattr = r'(\w+)\s+(.+)'
         # print("{} {}".format("pattr =", pattr))
         match = re.match(pattr, args)
         # print("{} {}".format("match =", match))
@@ -132,21 +133,30 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         class_name = match.group(1)
-        params_str = match.group(2)
+        params_str = match.group(2) or ""
         # print("{} {}".format("class_name =", class_name))
         # print("{} {}".format("params_str =", params_str))
         # Include support for floats
-        param_pattern = r'(\w+)="([^"]*)"|(\w+)=(-?\d+(\.\d+)?)'
+       # param_pattern = r'(\w+)="([^"]*)"|(\w+)=(-?\d+(\.\d+)?)'
+        param_pattern = r'(\w+)="((?:\\"|[^"])*)"|(\w+)=(-?\d+(\.\d+)?)'
 
         params = {}
         for param_match in re.finditer(param_pattern, params_str):
             key = param_match.group(1) or param_match.group(3)
             value = param_match.group(2) or param_match.group(4)
-            if ' ' in value:
+
+            # check before Replace escaped quotes with single quotes
+            if value is not None:
+                value = value.replace('\\"', '"')
+            # value = value.replace('\\"', '"')
+            # Check for escaped double quotes inside string values
+            # if value.startswith('"') and value.endswith('"'):
+                # value = value[1:-1].replace('\\"', '"')
+            if value is not None and ' ' in value:
                 print(
                     "Error: Values cannot contain spaces. Please use underscores instead.")
                 return
-            if '_' in value and ' ' not in value:
+            if value is not None and '_' in value and ' ' not in value:
                 # Replace underscores with spaces
                 value = value.replace("_", " ")
            # params[key] = value
@@ -155,12 +165,14 @@ class HBNBCommand(cmd.Cmd):
             # print("{} {}".format("key =", key))
             # print("{} {}".format("value =", value))
             try:
-                if '.' in value:
+                if value is not None and '.' in value:
                     params[key] = float(value)
                 else:
-                    params[key] = int(value)
+                    if value is not None:
+                        params[key] = int(value)
             except ValueError:
-                params[key] = value
+                if value is not None:
+                    params[key] = value
         if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
