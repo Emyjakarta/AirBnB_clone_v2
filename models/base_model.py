@@ -10,6 +10,8 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """Instantiates a new model"""
         # print("inside __init__ in BaseModel")
+        if 'Name' in kwargs:
+            raise KeyError("Invalid keyword argument 'Name'")
         if 'id' not in kwargs:
             self.id = str(uuid.uuid4())
         if 'created_at' not in kwargs:
