@@ -57,33 +57,32 @@ class TestConsole(unittest.TestCase):
                     obj.__dict__.items()
                 )
             )
-    
-   # @patch('lazy_methods.LazyMethods.get_uuid')
-   # def test_do_create_escaped_str(self, mock_get_uuid):
+
+    # @patch('lazy_methods.LazyMethods.get_uuid')
+    # def test_do_create_escaped_str(self, mock_get_uuid):
     #    """Test `create` with an escaped string attribute value."""
-     #   mock_get_uuid.return_value = 'dummy_uuid'
-      #  with patch("sys.stdout", new=StringIO()) as f:
-       #     self.cli.onecmd(
-        #        'create User first_name=""Betty"_Holberton" '
-         #       'email="bettyholberton@hbtn.io" password="abc123"'
-          #  )
+    #   mock_get_uuid.return_value = 'dummy_uuid'
+    #  with patch("sys.stdout", new=StringIO()) as f:
+    #     self.cli.onecmd(
+    #        'create User first_name=""Betty"_Holberton" '
+    #       'email="bettyholberton@hbtn.io" password="abc123"'
+    #  )
 
-            # key = instance.get_key("User", instance.get_uuid(f))
-            # key = instance.get_key("User", 'dummy_uuid')
-            # obj = models.storage.all()[key]
-
-           # obj_dict = models.storage.all().get('User.dummy_uuid')
-            #self.assertIsNotNone(obj_dict)
-            #obj = obj_dict['User.dummy_uuid']
-           # self.assertTrue(
-            #    set(
-             #       {
-              #          "first_name": '"Betty" Holberton',
-               #         "email": "bettyholberton@hbtn.io",
-                #        "password": "abc123",
-                 #   }.items()
-               # ).issubset(obj.__dict__.items()),
-           # )
+    # key = instance.get_key("User", instance.get_uuid(f))
+    # key = instance.get_key("User", 'dummy_uuid')
+    # obj = models.storage.all()[key]
+    # obj_dict = models.storage.all().get('User.dummy_uuid')
+    # self.assertIsNotNone(obj_dict)
+    # obj = obj_dict['User.dummy_uuid']
+    # self.assertTrue(
+    #    set(
+    #       {
+    #          "first_name": '"Betty" Holberton',
+    #         "email": "bettyholberton@hbtn.io",
+    #        "password": "abc123",
+    #   }.items()
+    # ).issubset(obj.__dict__.items()),
+    # )
 
     def test_do_create_multiple_attributes(self):
         """Test `create` with multiple attributes."""
@@ -106,24 +105,24 @@ class TestConsole(unittest.TestCase):
                 ).issubset(obj.__dict__.items()),
             )
 
-   # def test_do_create_invalid_attribute(self):
+    # def test_do_create_invalid_attribute(self):
     #    """Test `create` with an invalid attribute."""
-     #   if os.getenv("HBNB_TYPE_STORAGE") == "db":
-      #      print("Using DB")
-       #     with self.assertRaises(sqlalchemy.exc.IntegrityError):
-        #        self.cli.onecmd(
-         #           'create User invalid_attribute="Betty Holberton"'
-          #      )
-       # else:
-        #    print("Using File storage")
-         #   with patch("sys.stdout", new=StringIO()) as f:
-          #      self.cli.onecmd(
-           #         'create User invalid_attribute="Betty Holberton"'
-            #    )
+    #   if os.getenv("HBNB_TYPE_STORAGE") == "db":
+    #      print("Using DB")
+    #     with self.assertRaises(sqlalchemy.exc.IntegrityError):
+    #        self.cli.onecmd(
+    #           'create User invalid_attribute="Betty Holberton"'
+    #      )
+    # else:
+    #    print("Using File storage")
+    #   with patch("sys.stdout", new=StringIO()) as f:
+    #      self.cli.onecmd(
+    #         'create User invalid_attribute="Betty Holberton"'
+    #    )
 
-             #   key = instance.get_key("User", instance.get_uuid(f))
-              #  obj = models.storage.all()[key]
-               # self.assertNotIn("invalid_attribute", obj.__dict__)
+    #   key = instance.get_key("User", instance.get_uuid(f))
+    #  obj = models.storage.all()[key]
+    # self.assertNotIn("invalid_attribute", obj.__dict__)
 
 
 if __name__ == "__main__":
