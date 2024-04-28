@@ -142,6 +142,16 @@ class HBNBCommand(cmd.Cmd):
         for param_match in re.finditer(param_pattern, params_str):
             key = param_match.group(1) or param_match.group(3)
             value = param_match.group(2) or param_match.group(4)
+            if ' ' in value:
+                print(
+                    "Error: Values cannot contain spaces. Please use underscores instead.")
+                return
+            if '_' in value and ' ' not in value:
+                # Replace underscores with spaces
+                value = value.replace("_", " ")
+           # params[key] = value
+           # value = value.replace("_", " ")  # Replace underscores with spaces
+           # for key, value in params.items():
             # print("{} {}".format("key =", key))
             # print("{} {}".format("value =", value))
             try:
