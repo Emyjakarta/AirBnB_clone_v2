@@ -19,13 +19,13 @@ class BaseModel:
         unique=True,
         primary_key=True,
     )
-    created_at = Column(DateTime, nullable=False, default=datetime.now())
-    updated_at = Column(DateTime, nullable=False, default=datetime.now())
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow)
 
     def __init__(self, *args, **kwargs):
         """Instantiates a new model"""
         self.id = str(uuid.uuid4())
-        self.created_at = self.updated_at = datetime.now()
+        self.created_at = self.updated_at = datetime.utcnow()
 
         if kwargs:
             try:
@@ -36,7 +36,7 @@ class BaseModel:
                     kwargs["created_at"]
                 )
             except (KeyError, ValueError):
-                kwargs["updated_at"] = kwargs["created_at"] = datetime.now()
+                kwargs["updated_at"] = kwargs["created_at"] = datetime.utcnow()
 
             kwargs.pop("__class__", None)
             self.__dict__.update(kwargs)
@@ -50,7 +50,7 @@ class BaseModel:
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
-        self.updated_at = datetime.now()
+        self.updated_at = datetime.utcnow()
         models.storage.new(self)
         models.storage.save()
 
