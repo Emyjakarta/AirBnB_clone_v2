@@ -31,7 +31,8 @@ class DBStorage:
             "password": f"{getenv('HBNB_MYSQL_PWD')}",
             "host": f"{getenv('HBNB_MYSQL_HOST')}",
             "port": 3306,
-            "query": {"charset": "utf8"}  # Adjust the query parameters if necessary
+            # Adjust the query parameters if necessary
+            "query": {"charset": "utf8"}
         }
         self.__engine = create_engine(
             URL(**db_url),
@@ -73,9 +74,9 @@ class DBStorage:
         """Creates all tables in the database and the current
         database session."""
         # set the default collation and character set
-       # CustomMethods.set_default_collation(
-       #     engine=self.__engine, db=getenv("HBNB_MYSQL_DB")
-       # )
+        # CustomMethods.set_default_collation(
+        #     engine=self.__engine, db=getenv("HBNB_MYSQL_DB")
+        # )
 
         Base.metadata.create_all(self.__engine)
 
