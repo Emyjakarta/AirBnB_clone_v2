@@ -45,7 +45,7 @@ class BaseModel:
         """Returns a string representation of the instance"""
         return (
             f"[{self.__class__.__name__}] ({self.id}) "
-            f"{self.get_dict_without_sa_instance()}"
+            f"{self.retrieve_dict_without_sa_instance()}"
         )
 
     def save(self):
@@ -56,7 +56,7 @@ class BaseModel:
 
     def to_dict(self):
         """Convert instance into dict format"""
-        dictionary = self.get_dict_without_sa_instance()
+        dictionary = self.retrieve_dict_without_sa_instance()
 
         dictionary.update({"__class__": self.__class__.__name__})
         dictionary["created_at"] = self.created_at.isoformat()
@@ -72,7 +72,7 @@ class BaseModel:
         """Return the string representation of the object."""
         return self.__str__()
 
-    def get_dict_without_sa_instance(self):
+    def retrieve_dict_without_sa_instance(self):
         """Remove the sqlalchemy state from the dictionary"""
         dictionary = self.__dict__.copy()
         dictionary.pop("_sa_instance_state", None)

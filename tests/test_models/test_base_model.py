@@ -56,7 +56,7 @@ class TestBaseModel(unittest.TestCase):
     def test_str(self):
         """Tests the string representation of the BaseModel class"""
         i = self.value()
-        dictionary = i.get_dict_without_sa_instance()
+        dictionary = i.retrieve_dict_without_sa_instance()
         self.assertEqual(
             str(i), f"[{self.name}] ({i.id}) {dictionary}"
         )
