@@ -1,38 +1,37 @@
 #!/usr/bin/python3
 
-"""This module defines useful short methods that are heavily used during
-testing."""
+"""customized module for testing."""
 
 import sys
-from io import StringIO
 from uuid import UUID as uuid
-from random import choice
+from io import StringIO
 from sqlalchemy import text, inspect
+from random import choice
 
 
 class CustomMethods:
-    """Defines useful short methods that are heavily used during testing."""
+    """customized methods that facilitate testing."""
 
     __random_attributes = {
-        "first_name": ["John", "Lucy", "Lisa", "Bob", "Betty"],
-        "last_name": ["Doe", "Sickle", "Walters", "Range", "Holberton"],
-        "age": [45, 98, 23, 40, 12, 67],
+        "first_name": ["Emeka", "Khalid", "Akproko", "John", "Randy"],
+        "last_name": ["Ukonu", "Sinteayehu", "Doctor", "Cena", "Orton"],
+        "age": [50, 100, 10, 70, 15, 80],
         "latitude": [
-            37.773972,
-            -89.2312,
-            -14.5512,
-            36.2148,
-            45.1231,
-            -66.2312,
-            78.5512,
+            -89.2712,
+            -14.5592,
+            36.6148,
+            37.943972,
+            -57.2312,
+            78.5632,
+            42.1231,
         ],
         "longitude": [
-            -179.2312,
-            -14.5512,
-            36.2148,
-            145.1231,
-            -66.2312,
-            78.5512,
+            -16.5512,
+            36.2198,
+            -279.2312,
+            -54.2312,
+            87.5512,
+            156.1231,
         ],
     }
 
