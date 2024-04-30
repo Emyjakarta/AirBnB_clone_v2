@@ -12,7 +12,7 @@ from random import choice
 class CustomMethods:
     """customized methods that facilitate testing."""
 
-    __random_attributes = {
+    __arbitrary_attributes = {
         "first_name": ["Emeka", "Khalid", "Akproko", "John", "Randy"],
         "last_name": ["Ukonu", "Sinteayehu", "Doctor", "Cena", "Orton"],
         "age": [50, 100, 10, 70, 15, 80],
@@ -36,43 +36,43 @@ class CustomMethods:
     }
 
     @staticmethod
-    def get_uuid(line: StringIO) -> uuid:
+    def retrieve_uuid(line: StringIO) -> uuid:
         """Returns the UUID from a string."""
         return uuid(line.getvalue().strip())
 
     @staticmethod
-    def get_instances_count(line: StringIO) -> int:
+    def retrieve_instances_count(line: StringIO) -> int:
         """Returns the integer value for the number of instances of a model."""
         return int(line.getvalue().strip())
 
     @staticmethod
-    def get_key(model_name: str, instance_id: uuid) -> str:
+    def retrieve_key(model_name: str, instance_id: uuid) -> str:
         """Generates the key used in the objects dictionary for an instance."""
         return f"{model_name}.{instance_id}"
 
-    def get_first_name(self) -> str:
+    def retrieve_first_name(self) -> str:
         """Returns a first name."""
-        return choice(self.__random_attributes["first_name"])
+        return choice(self.__arbitrary_attributes["first_name"])
 
-    def get_last_name(self) -> str:
+    def retrieve_last_name(self) -> str:
         """Returns a first name."""
-        return choice(self.__random_attributes["last_name"])
+        return choice(self.__arbitrary_attributes["last_name"])
 
-    def get_email(self, first_name: str = None, last_name: str = None) -> str:
-        """Returns an email address based on random first and last names."""
+    def retrieve_email(self, first_name: str = None, last_name: str = None) -> str:
+        """Returns an email address based on arbitrary first and last names."""
         return (
-            f"{first_name or self.get_first_name()}."
-            f"{last_name or self.get_last_name()}@lzcorp.it".lower()
+            f"{first_name or self.retrieve_first_name()}."
+            f"{last_name or self.retrieve_last_name()}@gmail.com".lower()
         )
 
-    def get_random_attribute(self):
-        """Generates a random key and a value corresponding to that key."""
-        key = choice(list(self.__random_attributes.keys()))
+    def retrieve_arbitrary_attribute(self):
+        """Generates a arbitrary key and a value corresponding to that key."""
+        key = choice(list(self.__arbitrary_attributes.keys()))
 
-        return key, choice(self.__random_attributes[key])
+        return key, choice(self.__arbitrary_attributes[key])
 
     @staticmethod
-    def set_default_collation(
+    def fix_default_collation(
         engine=None, db=None, charset="utf8mb4", collate="utf8mb4_unicode_ci"
     ):
         """
@@ -107,7 +107,7 @@ class CustomMethods:
 
                 # Get table names
                 insp = inspect(engine)
-                table_names = insp.get_table_names()
+                table_names = insp.retrieve_table_names()
 
                 for table_name in table_names:
                     # Execute raw SQL to alter table character set

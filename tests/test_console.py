@@ -47,12 +47,12 @@ class TestConsole(unittest.TestCase):
     def test_do_create_one_attribute(self):
         """Test `create` with one attribute."""
         with patch("sys.stdout", new=StringIO()) as f:
-            self.cli.onecmd('create BaseModel name="Holberton"')
+            self.cli.onecmd('create BaseModel name="Orton"')
 
-            key = instance.get_key("BaseModel", instance.get_uuid(f))
+            key = instance.retrieve_key("BaseModel", instance.retrieve_uuid(f))
             obj = models.storage.all()[key]
             self.assertTrue(
-                set({"name": "Holberton"}.items()).issubset(
+                set({"name": "Orton"}.items()).issubset(
                     obj.__dict__.items()
                 )
             )
@@ -61,18 +61,18 @@ class TestConsole(unittest.TestCase):
         """Test `create` with an escaped string attribute value."""
         with patch("sys.stdout", new=StringIO()) as f:
             self.cli.onecmd(
-                'create User first_name=""Betty"_Holberton" '
-                'email="bettyholberton@hbtn.io" password="abc123"'
+                'create User first_name=""Randy"_Orton" '
+                'email="randyorton@gmail.com" password="xyz246"'
             )
 
-            key = instance.get_key("User", instance.get_uuid(f))
+            key = instance.retrieve_key("User", instance.retrieve_uuid(f))
             obj = models.storage.all()[key]
             self.assertTrue(
                 set(
                     {
-                        "first_name": '"Betty" Holberton',
-                        "email": "bettyholberton@hbtn.io",
-                        "password": "abc123",
+                        "first_name": '"Randy" Orton',
+                        "email": "randyorton@gmail.com",
+                        "password": "xyz246",
                     }.items()
                 ).issubset(obj.__dict__.items()),
             )
@@ -81,19 +81,19 @@ class TestConsole(unittest.TestCase):
         """Test `create` with multiple attributes."""
         with patch("sys.stdout", new=StringIO()) as f:
             self.cli.onecmd(
-                'create User first_name="Betty" last_name="Holberton" '
-                'email="bettyholberton@hbtn.io" password="abc123"'
+                'create User first_name="Randy" last_name="Orton" '
+                'email="randyorton@gmail.com" password="xyz246"'
             )
 
-            key = instance.get_key("User", instance.get_uuid(f))
+            key = instance.retrieve_key("User", instance.retrieve_uuid(f))
             obj = models.storage.all()[key]
             self.assertTrue(
                 set(
                     {
-                        "first_name": "Betty",
-                        "last_name": "Holberton",
-                        "email": "bettyholberton@hbtn.io",
-                        "password": "abc123",
+                        "first_name": "Randy",
+                        "last_name": "Orton",
+                        "email": "randyorton@gmail.com",
+                        "password": "xyz246",
                     }.items()
                 ).issubset(obj.__dict__.items()),
             )
@@ -104,16 +104,16 @@ class TestConsole(unittest.TestCase):
             print("Using DB")
             with self.assertRaises(sqlalchemy.exc.IntegrityError):
                 self.cli.onecmd(
-                    'create User invalid_attribute="Betty Holberton"'
+                    'create User invalid_attribute="Randy Orton"'
                 )
         else:
             print("Using File storage")
             with patch("sys.stdout", new=StringIO()) as f:
                 self.cli.onecmd(
-                    'create User invalid_attribute="Betty Holberton"'
+                    'create User invalid_attribute="Randy Orton"'
                 )
 
-                key = instance.get_key("User", instance.get_uuid(f))
+                key = instance.retrieve_key("User", instance.retrieve_uuid(f))
                 obj = models.storage.all()[key]
                 self.assertNotIn("invalid_attribute", obj.__dict__)
 
