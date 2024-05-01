@@ -29,3 +29,25 @@ greet_me(name="yasoob")
 ## ORM
 
 ORM stands for Object-Relational Mapping. It is a programming technique for converting data between incompatible type systems using object-oriented programming languages. This creates, in effect, a "virtual object database" that can be used from within the programming language.
+
+## Mapping a Python Class to a MySQL table
+
+In SQLAlchemy, you can map a Python class to a MySQL table using the declarative_base function.
+python
+
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
+
+class User(Base):
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    fullname = Column(String)
+    nickname = Column(String)
+
+    def __repr__(self):
+       return "<User(name='%s', fullname='%s', nickname='%s')>" % (
+                            self.name, self.fullname, self.nickname)
