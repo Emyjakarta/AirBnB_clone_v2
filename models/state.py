@@ -21,7 +21,7 @@ class State(BaseModel, Base):
             cascade="all, delete, delete-orphan"
         )
 
-    else:  # assume file storage if DB storage is not explicitly set
+    else:  # defaults to file storage if DB storage is not explicitly stated
 
         @property
         def cities(self):
