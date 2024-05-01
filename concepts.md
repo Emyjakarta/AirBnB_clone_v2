@@ -51,3 +51,20 @@ class User(Base):
     def __repr__(self):
        return "<User(name='%s', fullname='%s', nickname='%s')>" % (
                             self.name, self.fullname, self.nickname)
+
+## Handling 2 different storage engines with the same codebase
+
+In SQLAlchemy, you can use the create_engine function to create an engine that connects to a specific database. You can then use this engine to create a session that you can use to interact with the database.
+python
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+engine1 = create_engine('mysql://user:pass@localhost/db1')
+engine2 = create_engine('mysql://user:pass@localhost/db2')
+
+Session1 = sessionmaker(bind=engine1)
+Session2 = sessionmaker(bind=engine2)
+
+session1 = Session1()
+session2 = Session2()
