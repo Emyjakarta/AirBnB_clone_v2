@@ -350,3 +350,12 @@ This command is used to create a new database.
 USE database_name;
 ```
 
+3,CREATE TABLE:
+```
+CREATE TABLE table_name (
+  column1 datatype,
+  column2 datatype,
+  ...
+);
+```
+This command is used to create a new table in the database.
