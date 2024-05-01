@@ -55,7 +55,13 @@ class User(Base):
 ```
 
 ## Handling 2 different storage engines with the same codebase
+To handle different storage engines (e.g., MyISAM and InnoDB) with the same codebase, you can use conditional logic in your code to handle the differences. For example, you could use different table definitions or different SQL queries depending on the storage engine being used.
 
+Alternatively, you could use an ORM like SQLAlchemy, which provides a layer of abstraction between your application and the underlying database. This allows you to write code that is largely storage engine-agnostic, and the ORM will handle the differences behind the scenes.
+
+Another approach is to use a database abstraction layer (DBAL) like PyMYSQL or MySQL-Connector-Python, which provide a consistent API for interacting with the database, regardless of the storage engine being used.
+
+The specific approach you choose will depend on the complexity of your application and the degree of control you need over the underlying database implementation.
 In SQLAlchemy, you can use the create_engine function to create an engine that connects to a specific database. You can then use this engine to create a session that you can use to interact with the database.
 python
 ```
