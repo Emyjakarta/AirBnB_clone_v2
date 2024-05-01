@@ -374,7 +374,7 @@ FROM table_name;
 ```
 This command is used to retrieve data from a table.
 
-5, WHERE:
+6, WHERE:
 ```
 SELECT column1, column2, ...
 FROM table_name
