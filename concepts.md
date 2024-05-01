@@ -9,22 +9,23 @@ Unit testing is a software testing method by which individual units of source co
 
 *args is used to send a non-keyworded variable length argument list to the function.
 python
-
+```
 def test_var_args(f_arg, *argv):
     print("first normal arg:", f_arg)
     for arg in argv:
         print("another arg through *argv:", arg)
 
 test_var_args('yasoob', 'python', 'eggs', 'test')
-
+```
 **kwargs allows you to pass keyworded variable length of arguments to a function. You should use **kwargs if you want to handle named arguments in a function.
 python
-
+```
 def greet_me(**kwargs):
     for key, value in kwargs.items():
         print("{0} = {1}".format(key, value))
 
 greet_me(name="yasoob")
+```
 
 ## ORM
 
@@ -34,7 +35,7 @@ ORM stands for Object-Relational Mapping. It is a programming technique for conv
 
 In SQLAlchemy, you can map a Python class to a MySQL table using the declarative_base function.
 python
-
+```
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -51,12 +52,13 @@ class User(Base):
     def __repr__(self):
        return "<User(name='%s', fullname='%s', nickname='%s')>" % (
                             self.name, self.fullname, self.nickname)
+```
 
 ## Handling 2 different storage engines with the same codebase
 
 In SQLAlchemy, you can use the create_engine function to create an engine that connects to a specific database. You can then use this engine to create a session that you can use to interact with the database.
 python
-
+```
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -68,3 +70,19 @@ Session2 = sessionmaker(bind=engine2)
 
 session1 = Session1()
 session2 = Session2()
+```
+
+## Environment Variables
+
+Environment variables are a way to store configuration settings for your application. They are accessible from your application at runtime.
+
+In Python, you can use the os module to access environment variables.
+python
+```
+import os
+
+db_host = os.getenv('DB_HOST', 'localhost')
+db_user = os.getenv('DB_USER', 'root')
+db_pass = os.getenv('DB_PASS', '')
+```
+In this example, os.getenv is used to get the value of the DB_HOST, DB_USER, and DB_PASS environment variables. If these environment variables are not set, the default values 'localhost', 'root', and '' are used.
