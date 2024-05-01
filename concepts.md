@@ -130,3 +130,29 @@ db_user = os.getenv('DB_USER', 'root')
 db_pass = os.getenv('DB_PASS', '')
 ```
 In this example, os.getenv is used to get the value of the DB_HOST, DB_USER, and DB_PASS environment variables. If these environment variables are not set, the default values 'localhost', 'root', and '' are used.
+
+### MySQL
+MySQL is a popular and widely-used open-source relational database management system (RDBMS). It is known for its speed, reliability, and ease of use, making it a popular choice for a wide range of applications, from small websites to large-scale enterprise systems.
+
+Here are some key points about MySQL:
+
+    Open-source: MySQL is an open-source software, meaning its source code is freely available and can be modified or distributed under the terms of the GNU General Public License (GPL).
+
+    SQL-based: MySQL is a SQL (Structured Query Language) database, which means it uses a standardized language for managing and manipulating data stored in tables.
+
+    Multi-platform: MySQL runs on a variety of operating systems, including Windows, Linux, macOS, and others, making it a versatile choice for developers.
+
+    Scalable: MySQL is capable of handling large amounts of data and high traffic loads, making it suitable for both small and enterprise-level applications.
+
+    Transactional and ACID-compliant: MySQL supports ACID (Atomicity, Consistency, Isolation, Durability) properties, ensuring data integrity and reliability.
+
+    Concurrency: MySQL can handle multiple concurrent connections and transactions, making it suitable for applications with high concurrency requirements.
+
+    Security: MySQL provides a range of security features, including user authentication, access control, and encryption, to protect sensitive data.
+
+    Replication and High Availability: MySQL offers replication and high availability features, allowing for the creation of redundant, fault-tolerant database systems.
+
+    Storage Engines: MySQL supports various storage engines, such as InnoDB and MyISAM, each with their own set of features and performance characteristics, allowing users to choose the most suitable option for their application.
+
+    Ecosystem and Community: MySQL has a large and active community of developers, contributors, and users, providing a wealth of resources, tools, and third-party integrations.
+
