@@ -25,3 +25,7 @@ def greet_me(**kwargs):
         print("{0} = {1}".format(key, value))
 
 greet_me(name="yasoob")
+
+## ORM
+
+ORM stands for Object-Relational Mapping. It is a programming technique for converting data between incompatible type systems using object-oriented programming languages. This creates, in effect, a "virtual object database" that can be used from within the programming language.
