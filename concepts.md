@@ -359,3 +359,17 @@ CREATE TABLE table_name (
 );
 ```
 This command is used to create a new table in the database.
+
+4, INSERT INTO:
+```
+INSERT INTO table_name (column1, column2, ...)
+VALUES (value1, value2, ...);
+```
+This command is used to insert new data into a table.
+
+5,SELECT:
+```
+SELECT column1, column2, ...
+FROM table_name;
+```
+This command is used to retrieve data from a table.
