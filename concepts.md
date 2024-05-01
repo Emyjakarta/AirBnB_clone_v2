@@ -30,6 +30,21 @@ greet_me(name="yasoob")
 ## ORM
 
 ORM stands for Object-Relational Mapping. It is a programming technique for converting data between incompatible type systems using object-oriented programming languages. This creates, in effect, a "virtual object database" that can be used from within the programming language.
+In an ORM-based system, the database tables are mapped to Python classes, where each row in the table corresponds to an instance of the class. This allows you to work with data as if it were Python objects instead of rows in a table.
+
+Here's a brief overview of how ORMs work:
+
+    Database Abstraction: ORMs provide a layer of abstraction between your application and the underlying database. This means you don't have to write raw SQL queries to interact with the database; instead, you can use the ORM's API to perform CRUD (Create, Read, Update, Delete) operations.
+
+    Object-Oriented Mapping: ORMs map database tables to Python classes, where each class represents a table, and the class attributes represent the columns in the table. This allows you to work with data using an object-oriented approach, which can make your code more readable and maintainable.
+
+    Query Building: ORMs provide a way to build complex database queries using an object-oriented syntax, which can be more intuitive and less error-prone than writing raw SQL.
+
+    Database Portability: ORMs can help make your application more portable across different database management systems (DBMS), as the ORM handles the underlying differences between the DBMS implementations.
+
+    Lazy Loading and Eager Loading: ORMs often provide ways to control how data is loaded from the database, using techniques like lazy loading (loading data only when it's needed) and eager loading (loading related data upfront).
+
+Some popular ORM libraries for Python include SQLAlchemy, Django ORM, and Peewee. By using an ORM, you can focus on writing application-level code rather than worrying about the details of the underlying database implementation, which can improve developer productivity and code maintainability.
 
 ## Mapping a Python Class to a MySQL table
 
