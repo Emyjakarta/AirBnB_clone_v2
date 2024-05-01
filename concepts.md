@@ -345,6 +345,8 @@ CREATE DATABASE database_name;
 ```
 This command is used to create a new database.
 
-
-
+2,USE Database:
+```
+USE database_name;
+```
 
