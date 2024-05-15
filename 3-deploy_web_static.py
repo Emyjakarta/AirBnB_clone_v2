@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 
-"""This fabric script generates a .tgz archive from the contents of the
-web_static folder of the AirBnB Clone repo."""
+"""Fabric Script (based on the file 2-do_deploy_web_static.py) that
+creates and distributes an archive to your web servers,
+using the function deploy"""
 
 import os
 from datetime import datetime
@@ -10,9 +11,10 @@ from fabric.api import env
 from fabric.api import run
 from fabric.api import put
 
-env.hosts = ["web-01.lzcorp.tech", "web-02.lzcorp.tech"]
+env.hosts = ["web-01.emyjakarta.tech", "web-02.emyjakarta.tech"]
 env.user = "ubuntu"
-env.key_filename = "~/.ssh/alx-server-key.pem"
+#env.key_filename = "~/.ssh/alx-server-key.pem"
+env.key_filename = "~/.ssh/id_rsa"
 
 
 def do_pack():
