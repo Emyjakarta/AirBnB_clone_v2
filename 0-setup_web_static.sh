@@ -1,22 +1,22 @@
 #!/usr/bin/env bash
-# This script configures web servers for deployment
+# Script that configures web servers for deployment
 
 if [[ $EUID -ne 0 ]]; then
-    echo "You need to be root run this script."
+    echo "You need to be root"
     exit 1
 fi
 
-# install nginx if it doesn't exist
+# Check if nginx is available before installing nginx
 command -v nginx > /dev/null
 if [[ $? -eq 1 ]]; then
     apt install nginx -y
 fi
 
-# create needed directories
+# Create the required directories
 mkdir -p /data/web_static/shared 2> /dev/null
 mkdir -p /data/web_static/releases/test 2> /dev/null
 
-# a dummy HTML to check it works
+# Dummy HTML used for test
 echo "
 <html lang='en'>
     <head>
@@ -45,17 +45,17 @@ echo "
 </html>
 " > /data/web_static/releases/test/index.html
 
-# create link for current release
+# Create symbolic link for current release
 ln -sf /data/web_static/releases/test /data/web_static/current
 
-# allow user to have permissions over directories
+# Grant user permissions over directories
 chown -R ubuntu:ubuntu /data
 
-# update nginx configuration to add alias configuration
+# Update nginx configuration to add alias configuration
 grep -q "location /hbnb_static {" /etc/nginx/sites-available/default
 if [[ $? -eq 1 ]]; then
     sed -i "/server_name _;/a \\\n\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t}" /etc/nginx/sites-available/default
 fi
 
-# restart nginx
+# Restart nginx
 service nginx restart
