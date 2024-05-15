@@ -20,7 +20,7 @@ mkdir -p /data/web_static/releases/test 2> /dev/null
 echo "
 <html lang='en'>
     <head>
-        <title>Airbnb Clone</title>
+        <title>AirBnB_clone_v2</title>
         <style>
         .container {
             margin: 0 auto;
@@ -38,7 +38,7 @@ echo "
     </head>
     <body>
         <div class='container'>
-            <h1 class='text'>Yep, it works. I am $HOSTNAME</h1>
+            <h1 class='text'>This is just a test. If this appears, then it's functional. I am $HOSTNAME</h1>
             <hr>
         </div>
     </body>
