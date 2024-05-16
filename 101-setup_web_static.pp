@@ -1,4 +1,4 @@
-# This manifest configures an nginx web server with an alias
+# Manifest that configures an nginx web server with an alias
 
 $html="
 <html lang='en'>
@@ -21,7 +21,7 @@ $html="
     </head>
     <body>
         <div class='container'>
-            <h1 class='text'>Yep, it works. I am ${::facts['networking']['hostname']}</h1>
+            <h1 class='text'>If this displays, it's functional. I am ${::facts['networking']['hostname']}</h1>
             <hr>
         </div>
     </body>

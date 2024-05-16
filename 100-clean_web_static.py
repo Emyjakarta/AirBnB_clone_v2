@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
-"""This fabric script generates a .tgz archive from the contents of the
-web_static folder of the AirBnB Clone repo."""
+"""Fabric script (based on the file 3-deploy_web_static.py)
+that deletes out-of-date archives, using the function do_clean"""
 
 import os
 from datetime import datetime
