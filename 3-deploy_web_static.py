@@ -14,7 +14,7 @@ from fabric.api import put
 env.hosts = ["web-01.emyjakarta.tech", "web-02.emyjakarta.tech"]
 env.user = "ubuntu"
 #env.key_filename = "~/.ssh/alx-server-key.pem"
-env.key_filename = "~/.ssh/id_rsa"
+env.key_filename = "~/.ssh/my_servers"
 
 
 def do_pack():
