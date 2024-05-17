@@ -36,7 +36,7 @@ def do_deploy(archive_path: str) -> bool:
     Returns:
         bool: True if all operations were successful, False otherwise.
     """
-    #if not archive_path:
+    # if not archive_path:
     #    return False
     if not archive_path or not os.path.exists(archive_path):
         print("Archive path is invalid or does not exist")
@@ -44,8 +44,8 @@ def do_deploy(archive_path: str) -> bool:
 
     try:
 
-    # if os.path.exists(archive_path) is False:
-    #    return False
+        # if os.path.exists(archive_path) is False:
+        #    return False
 
         archive_name = archive_path.split("/")[-1]
         archive_name_no_ext = archive_name.split(".")[0]
@@ -59,9 +59,11 @@ def do_deploy(archive_path: str) -> bool:
         run(f"rm /tmp/{archive_name}")
 
         # Remove existing directories
-        # run(f"rm -rf /data/web_static/releases/{archive_name_no_ext}/web_static")
+        # run(f"rm -rf /data/web_static/releases/
+        # {archive_name_no_ext}/web_static")
 
-        # Move extracted files (including wildcards to handle empty directories)
+        # Move extracted files (including wildcards to handle empty
+        # directories)
         run(
             f"mv /data/web_static/releases/{archive_name_no_ext}/web_static/* "
             f"/data/web_static/releases/{archive_name_no_ext}/ || true"
@@ -69,7 +71,8 @@ def do_deploy(archive_path: str) -> bool:
 
         # Remove empty directories after move
         run(
-            f"rm -rf /data/web_static/releases/{archive_name_no_ext}/web_static"
+            f"rm -rf /data/web_static/releases/"
+            f"{archive_name_no_ext}/web_static"
         )
 
         # Remove old symbolic link
@@ -85,5 +88,5 @@ def do_deploy(archive_path: str) -> bool:
         return True
 
     except Exception as e:
-         print(f"An error occurred: {e}")
-         return False
+        print(f"An error occurred: {e}")
+        return False
