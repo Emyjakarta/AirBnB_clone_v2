@@ -59,7 +59,7 @@ def do_deploy(archive_path: str) -> bool:
         run(f"rm /tmp/{archive_name}")
 
         # Remove existing directories
-        run(f"rm -rf /data/web_static/releases/{archive_name_no_ext}/web_static")
+        # run(f"rm -rf /data/web_static/releases/{archive_name_no_ext}/web_static")
 
         # Move extracted files (including wildcards to handle empty directories)
         run(
@@ -73,7 +73,7 @@ def do_deploy(archive_path: str) -> bool:
         )
 
         # Remove old symbolic link
-        run("rm -rf /data/web_static/current")
+        run("rm -rf /data/web_static/current || true")
 
         # Create new symbolic link
         run(
