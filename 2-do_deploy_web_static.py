@@ -36,34 +36,54 @@ def do_deploy(archive_path: str) -> bool:
     Returns:
         bool: True if all operations were successful, False otherwise.
     """
-    if not archive_path:
+    #if not archive_path:
+    #    return False
+    if not archive_path or not os.path.exists(archive_path):
+        print("Archive path is invalid or does not exist")
         return False
 
-    if os.path.exists(archive_path) is False:
-        return False
+    try:
 
-    archive_name = archive_path.split("/")[-1]
-    archive_name_no_ext = archive_name.split(".")[0]
+    # if os.path.exists(archive_path) is False:
+    #    return False
 
-    put(archive_path, "/tmp/")
-    run(f"mkdir -p /data/web_static/releases/{archive_name_no_ext}/")
-    run(
-        f"tar -xzf /tmp/{archive_name} -C "
-        f"/data/web_static/releases/{archive_name_no_ext}/"
-    )
-    run(f"rm /tmp/{archive_name}")
-    run(
-        f"mv /data/web_static/releases/{archive_name_no_ext}/web_static/* "
-        f"/data/web_static/releases/{archive_name_no_ext}/"
-    )
-    run(
-        f"rm -rf /data/web_static/releases/{archive_name_no_ext}/web_static"
-    )
-    run("rm -rf /data/web_static/current")
-    run(
-        f"ln -s /data/web_static/releases/{archive_name_no_ext}/ "
-        "/data/web_static/current"
-    )
+        archive_name = archive_path.split("/")[-1]
+        archive_name_no_ext = archive_name.split(".")[0]
 
-    print("New version deployed!")
-    return True
+        put(archive_path, "/tmp/")
+        run(f"mkdir -p /data/web_static/releases/{archive_name_no_ext}/")
+        run(
+            f"tar -xzf /tmp/{archive_name} -C "
+            f"/data/web_static/releases/{archive_name_no_ext}/"
+        )
+        run(f"rm /tmp/{archive_name}")
+
+        # Remove existing directories
+        run(f"rm -rf /data/web_static/releases/{archive_name_no_ext}/web_static")
+
+        # Move extracted files (including wildcards to handle empty directories)
+        run(
+            f"mv /data/web_static/releases/{archive_name_no_ext}/web_static/* "
+            f"/data/web_static/releases/{archive_name_no_ext}/ || true"
+        )
+
+        # Remove empty directories after move
+        run(
+            f"rm -rf /data/web_static/releases/{archive_name_no_ext}/web_static"
+        )
+
+        # Remove old symbolic link
+        run("rm -rf /data/web_static/current")
+
+        # Create new symbolic link
+        run(
+            f"ln -s /data/web_static/releases/{archive_name_no_ext}/ "
+            "/data/web_static/current"
+        )
+
+        print("New version deployed!")
+        return True
+
+    except Exception as e:
+         print(f"An error occurred: {e}")
+         return False
