@@ -21,6 +21,7 @@ def do_pack():
         return None
 
     local(f"tar -cvzf {file_path} web_static")
+    local(f"chmod 664 {file_path}")  # Set the permissions to rw-rw-r--
 
     # Get the size of the generated archive
     archive_size = os.path.getsize(file_path)
