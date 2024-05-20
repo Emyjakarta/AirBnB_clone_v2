@@ -26,6 +26,7 @@ def do_pack():
         return None
 
     local(f"tar -cvzf {file_path} web_static")
+    local(f"chmod 664 {file_path}")  # Set the permissions to rw-rw-r--
     return file_path
 
 
