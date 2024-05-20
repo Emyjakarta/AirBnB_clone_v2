@@ -24,7 +24,7 @@ def do_pack():
 
     # Get the size of the generated archive
     archive_size = os.path.getsize(file_path)
-                
+
     # Print the packed message with the file size
     print(f"web_static packed: {file_path} -> {archive_size}Bytes")
 
