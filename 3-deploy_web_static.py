@@ -54,12 +54,26 @@ def do_deploy(archive_path: str) -> bool:
         f"/data/web_static/releases/{archive_name_no_ext}/"
     )
     run(f"rm /tmp/{archive_name}")
+    # Extracted folder name
+    extracted_folder = (
+            f"/data/web_static/releases/{archive_name_no_ext}/web_static"
+    )
+
+    # Move files from extracted folder to current
     run(
-        f"mv /data/web_static/releases/{archive_name_no_ext}/web_static/* "
+        f"mv {extracted_folder}/* "
         f"/data/web_static/releases/{archive_name_no_ext}/"
     )
-    run(f"rm -rf /data/web_static/releases/{archive_name_no_ext}/web_static")
-    run("rm -rf /data/web_static/current")
+
+    # Cleanup extracted folder
+    run(f"rm -rf {extracted_folder}")
+
+    # run(
+    #    f"mv /data/web_static/releases/{archive_name_no_ext}/web_static/* "
+    #    f"/data/web_static/releases/{archive_name_no_ext}/"
+    # )
+    # run(f"rm -rf /data/web_static/releases/{archive_name_no_ext}/web_static")
+    # run("rm -rf /data/web_static/current")
     run(
         f"ln -s /data/web_static/releases/{archive_name_no_ext}/ "
         "/data/web_static/current"
