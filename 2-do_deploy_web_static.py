@@ -74,24 +74,27 @@ def do_deploy(archive_path: str) -> bool:
         put(archive_path, "/tmp/")
 
         if env.host == "172.29.212.149":
-            sudo(f"mkdir -p /data/web_static/releases/{archive_name_no_ext}/")
-            sudo(
-                f"tar -xzf /tmp/{archive_name} -C "
+            local(
+                f"sudo mkdir -p /data/web_static/releases/"
+                f"{archive_name_no_ext}/"
+            )
+            local(
+                f"sudo tar -xzf /tmp/{archive_name} -C "
                 f"/data/web_static/releases/{archive_name_no_ext}/"
             )
-            sudo(f"rm /tmp/{archive_name}")
-            sudo(
-                f"mv /data/web_static/releases/"
+            local(f"sudo rm /tmp/{archive_name}")
+            local(
+                f"sudo mv /data/web_static/releases/"
                 f"{archive_name_no_ext}/web_static/* "
                 f"/data/web_static/releases/{archive_name_no_ext}/ || true"
             )
-            sudo(
-                f"rm -rf /data/web_static/releases/"
+            local(
+                f"sudo rm -rf /data/web_static/releases/"
                 f"{archive_name_no_ext}/web_static"
             )
-            sudo("rm -rf /data/web_static/current || true")
-            sudo(
-                f"ln -s /data/web_static/releases/"
+            local("sudo rm -rf /data/web_static/current || true")
+            local(
+                f"sudo ln -s /data/web_static/releases/"
                 f"{archive_name_no_ext}/ /data/web_static/current"
             )
         else:
