@@ -9,10 +9,26 @@ from fabric.api import local
 from fabric.api import env
 from fabric.api import run
 from fabric.api import put
+from fabric.api import sudo
 
-env.hosts = ["web-01.emyjakarta.tech", "web-02.emyjakarta.tech"]
+env.hosts = [
+    "web-01.emyjakarta.tech",
+    "web-02.emyjakarta.tech",
+    "172.29.212.149"]
+env.roledefs = {
+    'remote_servers': ['web-01.emyjakarta.tech', 'web-02.emyjakarta.tech'],
+    'local_server': ['172.29.212.149']
+}
 env.user = "ubuntu"
 env.key_filename = "~/.ssh/alx"
+
+
+def set_user():
+    """Sets the appropriate user for each host."""
+    if env.host_string == '172.29.212.149':
+        env.user = 'emyjakarta273'
+    else:
+        env.user = 'ubuntu'
 
 
 def do_pack():
@@ -25,6 +41,7 @@ def do_pack():
 
     local(f"tar -cvzf {file_path} web_static")
     local(f"chmod 664 {file_path}")  # Set the permissions to rw-rw-r--
+
     return file_path
 
 
@@ -48,42 +65,69 @@ def do_deploy(archive_path: str) -> bool:
         # if os.path.exists(archive_path) is False:
         #    return False
 
+        set_user()
         archive_name = archive_path.split("/")[-1]
         archive_name_no_ext = archive_name.split(".")[0]
 
+        print(f"Deploying {archive_name} to servers...")
+
         put(archive_path, "/tmp/")
-        run(f"mkdir -p /data/web_static/releases/{archive_name_no_ext}/")
-        run(
-            f"tar -xzf /tmp/{archive_name} -C "
-            f"/data/web_static/releases/{archive_name_no_ext}/"
-        )
-        run(f"rm /tmp/{archive_name}")
 
-        # Remove existing directories
-        # run(f"rm -rf /data/web_static/releases/
-        # {archive_name_no_ext}/web_static")
+        if env.host == "172.29.212.149":
+            sudo(f"mkdir -p /data/web_static/releases/{archive_name_no_ext}/")
+            sudo(
+                f"tar -xzf /tmp/{archive_name} -C "
+                f"/data/web_static/releases/{archive_name_no_ext}/"
+            )
+            sudo(f"rm /tmp/{archive_name}")
+            sudo(
+                f"mv /data/web_static/releases/"
+                f"{archive_name_no_ext}/web_static/* "
+                f"/data/web_static/releases/{archive_name_no_ext}/ || true"
+            )
+            sudo(
+                f"rm -rf /data/web_static/releases/"
+                f"{archive_name_no_ext}/web_static"
+            )
+            sudo("rm -rf /data/web_static/current || true")
+            sudo(
+                f"ln -s /data/web_static/releases/"
+                f"{archive_name_no_ext}/ /data/web_static/current"
+            )
+        else:
+            sudo(f"mkdir -p /data/web_static/releases/{archive_name_no_ext}/")
+            sudo(
+                f"tar -xzf /tmp/{archive_name} -C "
+                f"/data/web_static/releases/{archive_name_no_ext}/"
+            )
+            sudo(f"rm /tmp/{archive_name}")
 
-        # Move extracted files (including wildcards to handle empty
-        # directories)
-        run(
-            f"mv /data/web_static/releases/{archive_name_no_ext}/web_static/* "
-            f"/data/web_static/releases/{archive_name_no_ext}/ || true"
-        )
+            # Remove existing directories
+            # run(f"rm -rf /data/web_static/releases/
+            # {archive_name_no_ext}/web_static")
 
-        # Remove empty directories after move
-        run(
-            f"rm -rf /data/web_static/releases/"
-            f"{archive_name_no_ext}/web_static"
-        )
+            # Move extracted files (including wildcards to handle empty
+            # directories)
+            sudo(
+                f"mv /data/web_static/releases/"
+                f"{archive_name_no_ext}/web_static/* "
+                f"/data/web_static/releases/{archive_name_no_ext}/ || true"
+            )
 
-        # Remove old symbolic link
-        run("rm -rf /data/web_static/current || true")
+            # Remove empty directories after move
+            sudo(
+                f"rm -rf /data/web_static/releases/"
+                f"{archive_name_no_ext}/web_static"
+            )
 
-        # Create new symbolic link
-        run(
-            f"ln -s /data/web_static/releases/{archive_name_no_ext}/ "
-            "/data/web_static/current"
-        )
+            # Remove old symbolic link
+            sudo("rm -rf /data/web_static/current || true")
+
+            # Create new symbolic link
+            sudo(
+                f"ln -s /data/web_static/releases/{archive_name_no_ext}/ "
+                "/data/web_static/current"
+            )
 
         print("New version deployed!")
         return True
