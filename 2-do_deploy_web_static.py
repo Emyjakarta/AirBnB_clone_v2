@@ -14,10 +14,10 @@ from fabric.api import sudo
 env.hosts = [
     "web-01.emyjakarta.tech",
     "web-02.emyjakarta.tech",
-    "172.29.212.149"]
+    "192.168.43.18"]
 env.roledefs = {
     'remote_servers': ['web-01.emyjakarta.tech', 'web-02.emyjakarta.tech'],
-    'local_server': ['172.29.212.149']
+    'local_server': ['192.168.43.18']
 }
 env.user = "ubuntu"
 env.key_filename = "~/.ssh/alx"
@@ -25,7 +25,7 @@ env.key_filename = "~/.ssh/alx"
 
 def set_user():
     """Sets the appropriate user for each host."""
-    if env.host_string == '172.29.212.149':
+    if env.host_string == '192.168.43.18':
         env.user = 'emyjakarta273'
     else:
         env.user = 'ubuntu'
