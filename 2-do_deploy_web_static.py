@@ -20,7 +20,7 @@ env.roledefs = {
     'local_server': ['172.29.212.149']
 }
 env.user = "ubuntu"
-env.key_filename = "~/.ssh/alx"
+env.key_filename = "~/.ssh/id_rsa"
 
 
 def set_user():
