@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-"""This script starts the flask application and runs the web server."""
+"""Script that starts the flask application and runs the web server."""
 
 from flask import Flask
 from flask import render_template
