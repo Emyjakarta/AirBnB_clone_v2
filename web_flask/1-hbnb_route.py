@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-"""This module contains routes for the AirBnB web project."""
+"""Module that contains routes for the AirBnB web project."""
 
 from flask import Flask
 
