@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-"""This module creates a single route to the root of the website"""
+"""Module that creates a single route to the root of the website"""
 
 from flask import Flask
 
